@@ -267,6 +267,36 @@ COMET_API_KEY=your_api_key_here
 
 → Check out this [tutorial](https://www.comet.com/docs/v2/api-and-sdk/rest-api/overview/) to learn how to get the Comet ML variables from above. You can also access Opik's dashboard using 🔗[this link](https://www.comet.com/opik).
 
+#### MongDB
+
+In WSL2, run:
+
+```
+mongosh
+```
+
+```
+use admin
+```
+
+Then set the User manually with the right role/permissions to avoid authentication errors.
+
+```
+db = db.getSiblingDB('admin')
+db.createUser({
+  user: "llm_engineering",
+  pwd: "llm_engineering",
+  roles: [
+    { role: "userAdminAnyDatabase", db: "admin" },
+    { role: "readWriteAnyDatabase", db: "admin" }
+  ]
+})
+```
+
+```
+db.auth('llm_engineering', 'llm_engineering')
+```
+
 ### 6. Deployment Setup
 
 When deploying the project to the cloud, we must set additional settings for Mongo, Qdrant, and AWS. If you are just working locally, the default values of these env vars will work out of the box. Detailed deployment instructions are available in Chapter 11 of the [LLM Engineer's Handbook](https://www.amazon.com/LLM-Engineers-Handbook-engineering-production/dp/1836200072/).
